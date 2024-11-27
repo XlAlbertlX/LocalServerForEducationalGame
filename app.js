@@ -29,16 +29,16 @@ const server = http.createServer(async function (req, res) {
                 if (registrationResult.code !== 200) {
                     // Если код не 200, то возвращаем ошибку с соответствующим статусом
                     res.writeHead(400, { 'Content-Type': 'application/json; charset=UTF-8' });
-                    res.end(JSON.stringify({ message: registrationResult.message }));
+                    res.end(JSON.stringify({ code: registrationResult.code, message: registrationResult.message }));
                 } else {
                     // Если регистрация успешна
                     res.writeHead(200, { 'Content-Type': 'application/json; charset=UTF-8' });
-                    res.end(JSON.stringify({ message: "Пользователь успешно зарегистрирован!" }));
+                    res.end(JSON.stringify({ code: registrationResult.code, message: "Пользователь успешно зарегистрирован!" }));
                 }
             } catch (err) {
                 console.error('Ошибка при обработке данных:', err);
                 res.writeHead(500, { 'Content-Type': 'application/json; charset=UTF-8' });
-                res.end(JSON.stringify({ message: 'Ошибка сервера' }));
+                res.end(JSON.stringify({ code: 500, message: 'Ошибка сервера' }));
             }
             break;
         
