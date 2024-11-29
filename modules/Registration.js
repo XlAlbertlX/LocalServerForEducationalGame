@@ -8,7 +8,7 @@ function IsEmailValid(email) {
     const reg = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i;
 
     if(!reg.test(email)) {
-        throw new RegError(400, "Email невалиден");
+        throw new RegError(400, "Неправильный формат Email");
     }
 
     return true;
@@ -17,7 +17,7 @@ function IsEmailValid(email) {
 function IsNameValid(name) {
     const reg = /^[A-ZА-Я][a-zа-яёЁ'-]{1,32}$/;
     if(!reg.test(name)) {
-        throw new RegError(400, `Имя "${name}" невалидно`);
+        throw new RegError(400, `Имя "${name}" недопустимо`);
     };
 
     return true;
@@ -30,7 +30,7 @@ function IsPassValid(pass, repass) {
 
     const reg = /^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{6,16}$/;
     if(!reg.test(pass)) {
-        throw new RegError(400, "Пароль не соответствует требованиям");
+        throw new RegError(400, "Длина пароля от 6 до 16. Разрешены только латинские буквы, цифры и специальные символы.");
     };
 
     return true;
