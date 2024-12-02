@@ -2,10 +2,11 @@ const http = require("http");
 const url = require("url");
 const mysql = require("mysql");
 const bodyParser = require('body-parser');
-const CONFIG = require("./modules/config");
+const CONFIG = require("./modules/SQL/config");
 const GetPOSTData = require("./modules/GetPOSTData");
 const registration = require("./modules/Registration");
 const bcrypt = require('bcryptjs');
+const SendQuery = require("./modules/SQL/SendQuery");
 
 const PORT = 3500;
 class User {
@@ -20,6 +21,13 @@ const server = http.createServer(async function (req, res) {
     console.log(url);
     let user = new User();
     switch (url) {
+        case "/checkemail":
+            user = await GetPOSTData.GetData(req);
+            user.email = "xlllalbertlllx@gmail.com";
+            const values = [user.email]
+            const result = await SendQuery.CheckEmailQuery(values);
+            res.end();
+            break;
         case "/registration":
 
             try {

@@ -1,14 +1,15 @@
 const bcrypt = require('bcryptjs');
-const CONFIG = require("./config");
+const CONFIG = require("./SQL/config");
 const mysql = require("mysql");
+const SendQuery = require("./SQL/SendQuery");
 const RegError = require("./Classes/Error");
 
 
 function IsEmailValid(email) {
-    const reg = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i;
+    const reg = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/ ;
 
     if(!reg.test(email)) {
-        throw new RegError(400, "Неправильный формат Email");
+        throw new RegError(400, "Неправильный формат Email.");
     }
 
     return true;
@@ -17,7 +18,7 @@ function IsEmailValid(email) {
 function IsNameValid(name) {
     const reg = /^[A-ZА-Я][a-zа-яёЁ'-]{1,32}$/;
     if(!reg.test(name)) {
-        throw new RegError(400, `Имя "${name}" недопустимо`);
+        throw new RegError(400, `Имя "${name}" недопустимо.`);
     };
 
     return true;
@@ -25,7 +26,7 @@ function IsNameValid(name) {
 
 function IsPassValid(pass, repass) {
     if (pass !== repass) {
-        throw new RegError(400, "Пароли не совпадают");
+        throw new RegError(400, "Пароли не совпадают.");
     }
 
     const reg = /^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{6,16}$/;
@@ -70,21 +71,8 @@ async function Register (user) {
     }
 
     user.password = await HashPass(user.password);
-    const query =`INSERT INTO users (name, email, password, accountType, surname, patronymic) VALUES ('${user.name}', '${user.email}', '${user.password}', '${user.accountType}', '${user.surname}', '${user.patronymic}')`;
-                
-    const connection = mysql.createConnection(CONFIG);
-    return new Promise((resolve, reject) => {
-        connection.connect();
-        connection.query(query, (err, res) => {
-            if (err) {
-                console.error("Ошибка в запросе: ", err);
-                reject({ code: 500, message: "Ошибка сервера" }); // Возвращаем ошибку
-            }
-    
-           resolve({ code: 200, message: "Пользователь успешно зарегистрирован!" }); // Возвращаем успешный ответ
-        });
-        connection.end();
-    })
+    const values = [user.name, user.surname, user.email, user.password, user.accountType];          
+    SendQuery.RegistrationQuery(values);
     
 
 }
