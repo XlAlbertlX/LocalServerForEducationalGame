@@ -23,9 +23,15 @@ const server = http.createServer(async function (req, res) {
     switch (url) {
         case "/checkemail":
             user = await GetPOSTData.GetData(req);
-            user.email = "xlllalbertlllx@gmail.com";
             const values = [user.email]
             const result = await SendQuery.CheckEmailQuery(values);
+            if (result === 0) {
+                res.writeHead(200, { 'Content-Type': 'text/plain; charset=UTF-8' });
+                res.end(0);
+            } else {
+                res.writeHead(100, { 'Content-Type': 'text/plain; charset=UTF-8' });
+                res.end(1);
+            }
             res.end();
             break;
         case "/registration":

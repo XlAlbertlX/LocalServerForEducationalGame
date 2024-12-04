@@ -29,8 +29,9 @@ function CheckEmailQuery(values) {
                 console.error("Ошибка в запросе: ", err);
                 reject({code: 500, message: "Ошибка сервера."});
             }
-            console.log(res);
-            resolve({ code: 200, message: "Запрос выполнен успешно!" })
+            const exists = Object.values(res[0])[0]; // Извлекаем значение (0 или 1)
+            console.log("Результат EXISTS:", exists); 
+            resolve(exists);
         });
     });
 }
