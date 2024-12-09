@@ -27,10 +27,10 @@ const server = http.createServer(async function (req, res) {
             const result = await SendQuery.CheckEmailQuery(values);
             if (result === 0) {
                 res.writeHead(200, { 'Content-Type': 'text/plain; charset=UTF-8' });
-                res.end(0);
+                res.end("false");
             } else {
-                res.writeHead(100, { 'Content-Type': 'text/plain; charset=UTF-8' });
-                res.end(1);
+                res.writeHead(200, { 'Content-Type': 'text/plain; charset=UTF-8' });
+                res.end("true");
             }
             res.end();
             break;
