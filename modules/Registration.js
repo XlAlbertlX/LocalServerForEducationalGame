@@ -7,9 +7,8 @@ const RegError = require("./Classes/Error");
 
 function IsEmailValid(email) {
     const reg = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/ ;
-
     if(!reg.test(email)) {
-        throw new RegError(400, "Неправильный формат Email.");
+        throw new RegError(400, `Неправильный формат Email. ${email}`);
     }
 
     return true;

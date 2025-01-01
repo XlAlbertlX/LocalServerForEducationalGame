@@ -20,11 +20,12 @@ const server = http.createServer(async function (req, res) {
     let url = req.url;
     console.log(url);
     let user = new User();
+    let data;
     switch (url) {
         case "/checkemail":
             user = await GetPOSTData.GetData(req);
-            const values = [user.email]
-            const result = await SendQuery.CheckEmailQuery(values);
+            const values = [user.email];
+            const result = await SendQuery.CheckEmailQuery('users', values);
             if (result === 0) {
                 res.writeHead(200, { 'Content-Type': 'text/plain; charset=UTF-8' });
                 res.end("false");
@@ -34,6 +35,30 @@ const server = http.createServer(async function (req, res) {
             }
             res.end();
             break;
+
+        case "/saveConfirmCode":
+            data = await GetPOSTData.GetData(req);
+            const ConfirmValues = [data.code, data.email];
+            SendQuery.SaveConfirmCode(ConfirmValues);
+            res.writeHead(200, { 'Content-Type': 'text/plain; charset=UTF-8' });
+            res.end("true");
+            break;
+
+        case "/checkConfirmCodes":
+            data = await GetPOSTData.GetData(req);
+            const ConfirmValuesFromPOST = [data.email, data.code];
+            const queryResult = await SendQuery.CheckConfirmCode(ConfirmValuesFromPOST);
+
+            if(queryResult) {
+                res.writeHead(200, { 'Content-Type': 'text/plain; charset=UTF-8' });
+                res.end(JSON.stringify({ code: "200", message: "Коды совпадают" }));
+            } else {
+                res.writeHead(400, { 'Content-Type': 'text/plain; charset=UTF-8' });
+                res.end(JSON.stringify({ code: "400", message: "Коды не совпадают" }));
+            }
+            
+            break;
+
         case "/registration":
 
             try {
