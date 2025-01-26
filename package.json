@@ -11,7 +11,9 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
+    "express": "^4.21.2",
     "localserverforeducationalgame": "file:",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "uuid": "^11.0.3"
   }
 }

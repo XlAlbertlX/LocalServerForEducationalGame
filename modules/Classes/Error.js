@@ -10,7 +10,7 @@ class RegError extends Error {
         return {
             code: this.code,
             message: this.message,
-            stack: this.stack,
+            // stack: this.stack,
         };
     }
 }
